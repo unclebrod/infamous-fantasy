@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from typing import List
 
 load_dotenv()
 
@@ -47,9 +48,9 @@ class ESPNFantasyAPI:
         self.api_params = API_PARAMS
         self.response = None
 
-    def get(self, view: str, **kwargs) -> dict:
+    def get(self, view: str, **kwargs) -> List[dict]:
         """
-        Return a dictionary for the specified ESPN fantasy football endpoint
+        Return a list of jsons for the specified ESPN fantasy football endpoint
         """
         params = {"view": view}
         if kwargs:
