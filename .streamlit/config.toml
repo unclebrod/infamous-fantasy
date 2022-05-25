@@ -174,7 +174,7 @@ primaryColor = "RoyalBlue"
 backgroundColor = "GhostWhite"
 
 # Background color used for the sidebar and most interactive widgets.
-secondaryBackgroundColor = "#c9d4f6"
+secondaryBackgroundColor = "#dae1f9"
 
 # Color used for almost all text.
 textColor = "MidnightBlue"
