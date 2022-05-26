@@ -1,6 +1,8 @@
-import streamlit as st
-from espn_api import ESPNFantasyAPI
 from typing import List
+
+import streamlit as st
+
+from espn_api import ESPNFantasyAPI
 
 
 @st.experimental_memo
