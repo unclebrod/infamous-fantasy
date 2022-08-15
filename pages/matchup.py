@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import streamlit as st
 
 from helpers import json_from_espn_api
@@ -36,6 +37,7 @@ class MatchupPage(Page):
         teams = st.multiselect(label="Teams:", options=team_values, default="Average")
         stat2 = st.radio("Statistic: ", ["Points", "Margin"])
         self.plot_team_lineplot(teams=teams, stat=stat2)
+        self.plot_team_cumsum(teams=teams, stat=stat2)
         self.plot_team_barplot(teams=teams, stat=stat2)
         st.header("Single Team Drilldown")
         team = st.selectbox(
@@ -133,6 +135,23 @@ class MatchupPage(Page):
             hovermode="x unified",
         )
         fig.update_yaxes(rangemode="tozero")
+        st.plotly_chart(fig, use_container_width=True)
+
+    def plot_team_cumsum(self, teams, stat):
+        df = self.long_matchup_df[self.long_matchup_df["Team"].isin(teams)].sort_values(['Week']).reset_index(drop=True)
+        df[f'Running{stat}'] = df.groupby('Team')[stat].cumsum(axis=0)
+        fig = make_subplots(rows=2, cols=1)
+        fig.add_trace(
+            go.Scatter(x=df['Week'], y=df[stat], mode='lines+markers'), row=1, col=1
+        )
+        fig.add_trace(
+            go.Scatter(x=df['Week'], y=df[f'Running{stat}'], mode='lines+markers'), row=2, col=1
+        )
+        fig.update_layout(
+            title_text=f"Cumulative {stat} over the Season",
+            title_x=0.5,
+            hovermode="x unified",
+        )
         st.plotly_chart(fig, use_container_width=True)
 
     def plot_team_barplot(self, teams, stat) -> None:

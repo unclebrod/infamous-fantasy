@@ -1,8 +1,10 @@
 import streamlit as st
 
+from pages.draft import DraftPage
 from pages.matchup import MatchupPage
 
 PAGES = {
+    "Draft": DraftPage,
     "Matchups": MatchupPage,
 }
 

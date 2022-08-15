@@ -1,6 +1,6 @@
 import os
 from typing import List
-
+import json
 import requests
 from dotenv import load_dotenv
 
@@ -13,13 +13,16 @@ VIEWS = [
     "mBoxscore",
     "mDraftDetail",
     "mLiveScoring",
+    "mMatchup"
     "mMatchupScore",
     "mNav",
     "mPendingTransactions",
     "mPositionalRatings",
-    "mPositionalRatingsStats" "mRoster",
+    "mPositionalRatingsStats",
     "mProTeamSchedules_wl",
-    "mSchedule" "mSettings",
+    "mRoster",
+    "mSchedule",
+    "mSettings",
     "mStatus",
     "mTeam",
     "mTransactions2",
@@ -54,8 +57,19 @@ class ESPNFantasyAPI:
         """
         Return a list of jsons for the specified ESPN fantasy football endpoint
         """
+        filters = {
+            "players": {
+                "limit": 5000,
+                "sortDraftRanks": {
+                    "sortPriority": 100,
+                    "sortAsc": True,
+                    "value": "STANDARD"
+                }
+            }
+        }
+        headers = {'x-fantasy-filter': json.dumps(filters)}
         params = {"view": view}
         if kwargs:
             params.update(**kwargs)
-        self.response = requests.get(url=self.url, cookies=self.cookies, params=params)
+        self.response = requests.get(url=self.url, cookies=self.cookies, headers=headers, params=params)
         return self.response.json()
