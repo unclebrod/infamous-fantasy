@@ -3,38 +3,9 @@ from typing import List
 import json
 import requests
 from dotenv import load_dotenv
+from enumerations import VIEWS, API_PARAMS
 
 load_dotenv()
-
-VIEWS = [
-    "kona_game_state",
-    "kona_league_communication",
-    "kona_player_info",
-    "mBoxscore",
-    "mDraftDetail",
-    "mLiveScoring",
-    "mMatchup"
-    "mMatchupScore",
-    "mNav",
-    "mPendingTransactions",
-    "mPositionalRatings",
-    "mPositionalRatingsStats",
-    "mProTeamSchedules_wl",
-    "mRoster",
-    "mSchedule",
-    "mSettings",
-    "mStatus",
-    "mTeam",
-    "mTransactions2",
-    "modular",
-    "players_wl",
-]
-
-API_PARAMS = [
-    "seasonId",
-    "matchupPeriod",
-    "scoringPeriod",
-]
 
 
 class ESPNFantasyAPI:

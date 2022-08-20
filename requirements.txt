@@ -17,7 +17,9 @@ argon2-cffi-bindings==21.2.0
 asttokens==2.0.5
     # via stack-data
 attrs==21.4.0
-    # via jsonschema
+    # via
+    #   jsonschema
+    #   streamlit
 backcall==0.2.0
     # via ipython
 backports-zoneinfo==0.2.1
@@ -243,7 +245,7 @@ soupsieve==2.3.2.post1
     # via beautifulsoup4
 stack-data==0.2.0
     # via ipython
-streamlit==1.12.0
+streamlit==1.10.0
     # via infamous-fantasy (setup.py)
 tenacity==8.0.1
     # via plotly
