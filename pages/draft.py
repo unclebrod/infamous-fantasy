@@ -48,6 +48,7 @@ class DraftPage(Page):
         self.player_json = json_from_espn_api(
             view="kona_player_info", seasonId=self.season
         )
+        st.header("League Trends")
         player_df = pd.json_normalize(self.player_json[0]["players"])
         self.draft_json = json_from_espn_api(view="mDraftDetail", seasonId=self.season)
         draft_df = pd.json_normalize(self.draft_json[0]["draftDetail"]["picks"])
@@ -57,17 +58,17 @@ class DraftPage(Page):
             player_df, how="left", left_on="playerId", right_on="id"
         ).merge(team_df, how="left", left_on="teamId", right_on="id")
         self._add_columns()
-        st.dataframe(self.df)
-        st.dataframe(player_df)
-        st.dataframe(draft_df)
-        st.dataframe(team_df)
-        st.subheader("Filter Options")
-        st.caption(
-            "Use the menus below to change which points appear on the plot. "
-            "By default, all drafted players are selected."
-        )
+        # st.dataframe(self.df)
+        # st.dataframe(player_df)
+        # st.dataframe(draft_df)
+        # st.dataframe(team_df)
         filter_col, plot_col = st.columns([1, 3])
         with filter_col:
+            st.subheader("Filter Options")
+            st.caption(
+                "Use the menus below to change which points appear on the plot. "
+                "By default, all drafted players are selected."
+            )
             positions_vals = get_unique_vals(self.df["Position"])
             self.positions = st.multiselect(
                 "Positions:",
@@ -109,6 +110,8 @@ class DraftPage(Page):
         self._filter_df()
         with plot_col:
             self._plot_value_scatter()
+        st.header("Team Value")
+
 
     def _add_columns(self):
         self.df["seasonAverage"] = self.df.apply(
@@ -150,7 +153,10 @@ class DraftPage(Page):
         fig = go.Figure(data=fig2.data + fig1.data)
         fig.update_xaxes(
             dict(
-                range=[self.df["bidAmount"].min() - 2, self.df["bidAmount"].max() + 2],
+                range=[
+                    self.df["bidAmount"].min() - 2,
+                    self.df["bidAmount"].max() + 2,
+                ],
                 zeroline=True,
                 zerolinewidth=1,
                 zerolinecolor="black",
@@ -173,5 +179,7 @@ class DraftPage(Page):
             title_x=0.5,
             xaxis_title="Bid Amount",
             yaxis_title="Season Scoring Average",
+            height=600,
         )
         st.plotly_chart(fig, use_container_width=True)
+        # TODO: why is the legend behaving this way?
