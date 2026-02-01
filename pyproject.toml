@@ -1,3 +1,16 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[project]
+name = "infamous-fantasy"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.3.2",
+    "plotly>=6.3.0",
+    "polars[pydantic]>=1.32.3",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.5",
+    "scikit-learn>=1.7.1",
+    "streamlit>=1.48.1",
+    "watchdog>=6.0.0",
+]
